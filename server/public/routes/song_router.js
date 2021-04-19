@@ -34,7 +34,7 @@ const songList = [
 ];
 router.get('/', (req, res) => {
     //res.send(musicLibrary);
-    let queryText = 'SELECT * FROM songs;';
+    let queryText = 'SELECT * FROM songs ORDER BY "title"';
     pool.query(queryText)
     .then(dbResults => {
         res.send(dbResults.rows);
