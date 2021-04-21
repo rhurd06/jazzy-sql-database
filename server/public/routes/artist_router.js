@@ -47,8 +47,22 @@ router.get('/', (req, res) => {
     });
 });
 router.post('/', (req, res) => {
-    artistList.push(req.body);
-    res.sendStatus(200);
+    const artist ={
+        name: req.body.name,
+        birthdate: req.body.birthdate,
+    }
+    let queryText = `INSERT INTO "artists" ("artist_name", "year_born" )
+                    VALUES ($1, $2);`;
+    pool.query(queryText, [req.body.name, req.body.birthdate])
+    .then(result =>{
+        console.log('New artist is:', result);
+        res.sendStatus(200);
+    })
+    .catch(err => {
+        console.log(`This didn't work., ${queryText}`, err);
+        res.sendStatus(500);
+    })
+
 });
 
 module.exports = router;
